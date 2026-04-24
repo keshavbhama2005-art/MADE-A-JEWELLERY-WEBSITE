@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Krishna Jewellers – Timeless Gold Craftsmanship</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-pale: #F5E9C8;
+    --gold-dark: #9A7A30;
+    --black: #080808;
+    --off-black: #0F0F0F;
+    --surface: #161616;
+    --surface2: #1E1E1E;
+    --surface3: #252525;
+    --text: #F0EAD6;
+    --text-muted: #7A7468;
+    --text-dim: #3D3A34;
+    --border: rgba(201,168,76,0.18);
+    --border-hover: rgba(201,168,76,0.4);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.2s, height 0.2s, background 0.2s;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(201,168,76,0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: transform 0.15s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
+  }
+  body:hover .cursor { opacity: 1; }
+  a, button, .coll-card, .nav-links a { cursor: none !important; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 2px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dark); }
+
+  /* ============ NAV ============ */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3.5rem;
+    border-bottom: 0.5px solid var(--border);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(20px);
+    transition: padding 0.4s;
+  }
+  nav.scrolled { padding: 0.85rem 3.5rem; }
+
+  .logo { display: flex; flex-direction: column; gap: 3px; text-decoration: none; }
+  .logo-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 500; letter-spacing: 5px;
+    color: var(--gold); text-transform: uppercase;
+  }
+  .logo-sub { font-size: 8px; letter-spacing: 5px; color: var(--text-muted); text-transform: uppercase; }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none;
+    position: relative; padding-bottom: 4px;
+    transition: color 0.3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: 0; left: 0;
+    width: 0; height: 0.5px; background: var(--gold);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+  .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+
+  .nav-right { display: flex; align-items: center; gap: 1rem; }
+
+  .nav-wa {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 16px;
+    background: rgba(37,211,102,0.08);
+    border: 0.5px solid rgba(37,211,102,0.3);
+    color: #25D366;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; transition: all 0.3s;
+  }
+  .nav-wa:hover { background: rgba(37,211,102,0.15); border-color: #25D366; }
+  .nav-wa svg { flex-shrink: 0; }
+
+  .nav-cta {
+    padding: 9px 22px; border: 0.5px solid var(--gold); color: var(--gold);
+    background: transparent; font-size: 10px; letter-spacing: 3px;
+    text-transform: uppercase; text-decoration: none;
+    transition: all 0.3s; display: inline-block;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--black); }
+
+  /* ============ SECTIONS ============ */
+  .section { display: none; padding-top: 75px; }
+  .section.active { display: block; }
+
+  /* ============ HERO ============ */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+  }
+
+  .hero-grain {
+    position: absolute; inset: 0; z-index: 1; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 4rem 4rem 5rem;
+    position: relative; z-index: 2;
+    border-right: 0.5px solid var(--border);
+  }
+
+  .hero-eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 2rem;
+    opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 30px; height: 0.5px; background: var(--gold);
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px; font-weight: 300; line-height: 1.05;
+    color: var(--text); margin-bottom: 2rem; letter-spacing: -1px;
+    opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-title em { color: var(--gold); font-style: italic; }
+
+  .hero-body {
+    font-size: 14px; color: var(--text-muted); line-height: 1.9;
+    margin-bottom: 3rem; max-width: 380px;
+    opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; align-items: center;
+    opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
+  }
+
+  .btn-primary {
+    padding: 14px 36px; background: var(--gold); color: var(--black);
+    font-family: 'Jost', sans-serif;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    border: none; font-weight: 500; text-decoration: none;
+    display: inline-block; position: relative; overflow: hidden;
+    transition: all 0.3s;
+  }
+  .btn-primary::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold-light); transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+  .btn-primary:hover::before { transform: translateX(0); }
+  .btn-primary span { position: relative; z-index: 1; }
+
+  .btn-ghost {
+    padding: 14px 36px; background: transparent; color: var(--text-muted);
+    font-family: 'Jost', sans-serif;
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    border: 0.5px solid rgba(255,255,255,0.1); text-decoration: none;
+    display: inline-block; transition: all 0.3s;
+  }
+  .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  .btn-whatsapp {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 28px;
+    background: rgba(37,211,102,0.08);
+    border: 0.5px solid rgba(37,211,102,0.3);
+    color: #25D366;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; transition: all 0.3s;
+  }
+  .btn-whatsapp:hover { background: rgba(37,211,102,0.18); border-color: #25D366; transform: translateY(-2px); }
+
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2;
+    background: var(--off-black);
+  }
+
+  .hero-visual-wrap {
+    width: 400px; height: 500px; position: relative;
+    opacity: 0; animation: fadeIn 1.2s 0.5s forwards;
+  }
+
+  .mandala-svg {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    animation: mandala-spin 30s linear infinite;
+  }
+  @keyframes mandala-spin { to { transform: rotate(360deg); } }
+
+  .mandala-inner {
+    position: absolute; inset: 20%; width: 60%; height: 60%;
+    top: 20%; left: 20%;
+    animation: mandala-spin 20s linear infinite reverse;
+  }
+
+  .hero-gem-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    animation: gem-pulse 4s ease-in-out infinite;
+  }
+  @keyframes gem-pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); filter: drop-shadow(0 0 8px rgba(201,168,76,0.3)); }
+    50% { transform: translate(-50%, -50%) scale(1.04); filter: drop-shadow(0 0 20px rgba(201,168,76,0.6)); }
+  }
+
+  .hero-scroll {
+    position: absolute; bottom: 3rem; left: 5rem;
+    display: flex; align-items: center; gap: 12px;
+    font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--text-dim);
+    opacity: 0; animation: fadeIn 1s 1.5s forwards;
+  }
+  .scroll-line {
+    width: 40px; height: 0.5px; background: var(--text-dim);
+    position: relative; overflow: hidden;
+  }
+  .scroll-line::after {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold);
+    animation: scroll-slide 2s ease-in-out infinite;
+  }
+  @keyframes scroll-slide {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+  }
+
+  /* STATS */
+  .stats-bar {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    border-top: 0.5px solid var(--border);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .stat-item {
+    padding: 2.5rem 2rem; text-align: center;
+    border-right: 0.5px solid var(--border);
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: var(--surface); }
+  .stat-item::before {
+    content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+    height: 1px; background: var(--gold);
+    transform: scaleX(0); transition: transform 0.4s ease;
+  }
+  .stat-item:hover::before { transform: scaleX(1); }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 38px; font-weight: 300; color: var(--gold); letter-spacing: -1px;
+  }
+  .stat-label { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); margin-top: 6px; }
+
+  /* ============ COLLECTIONS ============ */
+  .section-header { padding: 5rem 4rem 3rem; }
+  .section-eyebrow {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 9px; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 1rem;
+  }
+  .section-eyebrow::before { content: ''; width: 24px; height: 0.5px; background: var(--gold); }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; font-weight: 300; color: var(--text); letter-spacing: -0.5px;
+  }
+
+  .collection-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; background: var(--border); margin: 0 4rem;
+  }
+
+  .coll-card {
+    background: var(--off-black); padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: background 0.4s;
+    border: none;
+  }
+  .coll-card::before {
+    content: ''; position: absolute;
+    inset: 0; background: linear-gradient(135deg, rgba(201,168,76,0.04) 0%, transparent 60%);
+    opacity: 0; transition: opacity 0.4s;
+  }
+  .coll-card:hover { background: var(--surface); }
+  .coll-card:hover::before { opacity: 1; }
+  .coll-card:hover .coll-icon { transform: scale(1.05) rotate(5deg); }
+  .coll-card:hover .coll-arrow { opacity: 1; transform: translate(0, 0); }
+  .coll-card:hover .coll-underline { width: 100%; }
+
+  .coll-icon {
+    width: 72px; height: 72px; margin-bottom: 1.75rem;
+    transition: transform 0.4s ease;
+  }
+  .coll-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px; font-weight: 400; color: var(--text); margin-bottom: 4px;
+  }
+  .coll-count { font-size: 11px; color: var(--text-muted); letter-spacing: 1px; }
+  .coll-underline {
+    height: 0.5px; background: var(--gold); width: 0;
+    transition: width 0.4s ease; margin-top: 12px;
+  }
+  .coll-tag {
+    display: inline-block; margin-top: 14px;
+    font-size: 8px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--gold); border: 0.5px solid rgba(201,168,76,0.35);
+    padding: 4px 10px;
+  }
+  .coll-arrow {
+    position: absolute; top: 2rem; right: 2rem;
+    font-size: 18px; color: var(--gold);
+    opacity: 0; transform: translate(-4px, 4px); transition: all 0.3s;
+  }
+
+  .featured-strip {
+    margin: 1px 4rem 0;
+    padding: 2.5rem 3rem;
+    background: var(--surface);
+    border-top: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    position: relative; overflow: hidden;
+  }
+  .featured-strip::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: linear-gradient(to bottom, var(--gold), transparent);
+  }
+  .featured-label { font-size: 9px; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+  .featured-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 24px; font-weight: 400; color: var(--text);
+  }
+  .featured-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+  /* ============ ABOUT ============ */
+  .about-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 75px);
+  }
+  .about-left {
+    padding: 6rem 4rem 4rem 5rem;
+    border-right: 0.5px solid var(--border);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .about-right {
+    padding: 6rem 5rem 4rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+    background: var(--off-black);
+  }
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; font-weight: 300; line-height: 1.2; margin-bottom: 2rem;
+  }
+  .about-title em { color: var(--gold); font-style: italic; }
+  .about-body { font-size: 14px; color: var(--text-muted); line-height: 1.9; margin-bottom: 1.5rem; }
+
+  .values { display: flex; flex-direction: column; gap: 2rem; margin-top: 2.5rem; }
+  .value-item {
+    display: flex; gap: 1.5rem; align-items: flex-start;
+    padding-bottom: 2rem; border-bottom: 0.5px solid var(--border);
+    transition: all 0.3s;
+  }
+  .value-item:last-child { border-bottom: none; }
+  .value-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 300; color: var(--text-dim); line-height: 1;
+    transition: color 0.3s;
+  }
+  .value-item:hover .value-num { color: var(--gold); }
+  .value-title { font-size: 13px; font-weight: 500; letter-spacing: 1px; color: var(--text); margin-bottom: 6px; }
+  .value-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
+  .about-visual-wrap {
+    margin-bottom: 2.5rem;
+    width: 100%; aspect-ratio: 1;
+    border: 0.5px solid var(--border);
+    background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .about-visual-wrap::before {
+    content: 'KRISHNA JEWELLERS · EST. 1985 · NEW DELHI · ';
+    position: absolute;
+    font-size: 8px; letter-spacing: 4px; color: var(--text-dim);
+    animation: text-orbit 15s linear infinite;
+    transform-origin: center;
+    top: 50%; left: 50%;
+    width: 300px; margin-left: -150px; margin-top: -150px;
+    text-align: center;
+  }
+  @keyframes text-orbit { to { transform: rotate(360deg); } }
+
+  .about-ornament { animation: mandala-spin 25s linear infinite; }
+
+  /* ============ CONTACT ============ */
+  .contact-layout {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 75px);
+  }
+  .contact-left {
+    padding: 6rem 4rem 4rem 5rem;
+    border-right: 0.5px solid var(--border);
+    background: var(--off-black);
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-right {
+    padding: 6rem 5rem 4rem 4rem;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 48px; font-weight: 300; color: var(--text);
+    margin-bottom: 1rem; line-height: 1.2;
+  }
+  .contact-sub { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 3rem; }
+
+  .info-grid { display: flex; flex-direction: column; gap: 1.5rem; margin-bottom: 2.5rem; }
+  .info-item {
+    display: flex; gap: 1rem; align-items: flex-start;
+    padding: 1.25rem; border: 0.5px solid var(--border);
+    background: var(--surface); transition: border-color 0.3s;
+  }
+  .info-item:hover { border-color: var(--border-hover); }
+  .info-icon {
+    width: 36px; height: 36px; border: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; background: var(--surface2);
+  }
+  .info-label { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold); margin-bottom: 5px; }
+  .info-value { font-size: 13px; color: var(--text); line-height: 1.6; }
+  .info-value a { color: var(--gold); text-decoration: none; }
+  .info-value a:hover { text-decoration: underline; }
+
+  .wa-cta {
+    display: flex; align-items: center; gap: 14px;
+    padding: 1.25rem 1.5rem;
+    background: rgba(37,211,102,0.06);
+    border: 0.5px solid rgba(37,211,102,0.25);
+    text-decoration: none; transition: all 0.3s;
+    position: relative; overflow: hidden;
+  }
+  .wa-cta::before {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(37,211,102,0.08);
+    transform: translateX(-100%); transition: transform 0.4s ease;
+  }
+  .wa-cta:hover::before { transform: translateX(0); }
+  .wa-cta-text { position: relative; z-index: 1; }
+  .wa-cta-label { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: rgba(37,211,102,0.6); margin-bottom: 3px; }
+  .wa-cta-value { font-size: 15px; color: #25D366; font-weight: 400; }
+  .wa-icon { width: 40px; height: 40px; background: rgba(37,211,102,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+  .form-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px; font-weight: 300; color: var(--text);
+    margin-bottom: 2rem;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label { font-size: 8px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-muted); display: block; margin-bottom: 8px; }
+  .form-input {
+    width: 100%; padding: 12px 14px;
+    background: var(--surface); border: 0.5px solid var(--border);
+    color: var(--text); font-size: 13px; font-family: 'Jost', sans-serif;
+    font-weight: 300; outline: none; transition: border-color 0.3s, background 0.3s;
+    appearance: none;
+  }
+  .form-input:focus { border-color: var(--gold); background: var(--surface2); }
+  .form-input::placeholder { color: var(--text-dim); }
+  textarea.form-input { resize: none; height: 90px; }
+  select.form-input { cursor: none; }
+
+  .form-submit {
+    width: 100%; padding: 15px;
+    background: var(--gold); color: var(--black);
+    font-family: 'Jost', sans-serif;
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    border: none; font-weight: 500; margin-top: 0.5rem;
+    position: relative; overflow: hidden; transition: all 0.3s;
+    cursor: none;
+  }
+  .form-submit::before {
+    content: ''; position: absolute; inset: 0;
+    background: var(--gold-light); transform: translateX(-100%);
+    transition: transform 0.4s ease;
+  }
+  .form-submit:hover::before { transform: translateX(0); }
+  .form-submit span { position: relative; z-index: 1; }
+
+  .success-msg {
+    display: none;
+    text-align: center; padding: 3rem;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px; font-weight: 300; color: var(--gold);
+    border: 0.5px solid var(--border);
+    animation: fadeIn 0.5s forwards;
+  }
+  .success-msg p { font-family: 'Jost', sans-serif; font-size: 13px; color: var(--text-muted); margin-top: 1rem; font-weight: 300; }
+
+  /* FOOTER */
+  footer {
+    padding: 2.5rem 4rem;
+    border-top: 0.5px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    background: var(--off-black);
+  }
+  .footer-brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px; letter-spacing: 3px; color: var(--gold);
+  }
+  .footer-copy { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a {
+    font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--text-muted); text-decoration: none; transition: color 0.3s;
+  }
+  .footer-links a:hover { color: var(--gold); }
+
+  /* FLOATING WA BUTTON */
+  .wa-float {
+    position: fixed; bottom: 2rem; right: 2rem; z-index: 400;
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 20px 12px 14px;
+    background: #25D366; color: #fff;
+    text-decoration: none; font-size: 11px; letter-spacing: 1px;
+    box-shadow: 0 4px 30px rgba(37,211,102,0.3);
+    transition: all 0.3s;
+    animation: wa-bounce 3s ease-in-out infinite;
+  }
+  .wa-float:hover { background: #128C7E; box-shadow: 0 6px 40px rgba(37,211,102,0.5); transform: translateY(-2px) !important; }
+  @keyframes wa-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  .wa-pulse {
+    width: 8px; height: 8px; background: #fff;
+    border-radius: 50%; flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.8); }
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+
+  /* GOLD DIVIDER */
+  .gold-divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 2.5rem 0;
+  }
+  .gold-divider::before, .gold-divider::after {
+    content: ''; flex: 1; height: 0.5px; background: var(--border);
+  }
+  .gold-divider-icon { color: var(--gold); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<!-- FLOATING WHATSAPP -->
+<a class="wa-float" href="https://wa.me/918700396199?text=Hello%20Krishna%20Jewellers%2C%20I%20would%20like%20to%20enquire%20about%20your%20jewellery%20collections." target="_blank" rel="noopener">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  <span class="wa-pulse"></span>
+  Chat with us
+</a>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a class="logo" href="#" onclick="showSection('hero')">
+    <span class="logo-name">Krishna Jewellers</span>
+    <span class="logo-sub">Est. 1985 · New Delhi</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="active" onclick="showSection('hero');return false;">Home</a></li>
+    <li><a href="#" onclick="showSection('collections');return false;">Collections</a></li>
+    <li><a href="#" onclick="showSection('about');return false;">About</a></li>
+    <li><a href="#" onclick="showSection('contact');return false;">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <a class="nav-wa" href="https://wa.me/918700396199?text=Hi%20Krishna%20Jewellers!" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      WhatsApp
+    </a>
+    <a class="nav-cta" href="#" onclick="showSection('collections');return false;">Explore Now</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<div id="sec-hero" class="section active">
+  <div class="hero">
+    <div class="hero-grain"></div>
+    <div class="hero-left">
+      <p class="hero-eyebrow">Timeless Indian Craftsmanship</p>
+      <h1 class="hero-title">Jewellery that<br>tells your <em>story</em></h1>
+      <p class="hero-body">Handcrafted with generations of artistry. Each piece from Krishna Jewellers carries the soul of tradition and the precision of pure excellence.</p>
+      <div class="hero-btns">
+        <a class="btn-primary" href="#" onclick="showSection('collections');return false;"><span>View Collections</span></a>
+        <a class="btn-whatsapp" href="https://wa.me/918700396199?text=Hello%20Krishna%20Jewellers%2C%20I%20would%20like%20to%20enquire%20about%20your%20jewellery." target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Us
+        </a>
+        <a class="btn-ghost" href="#" onclick="showSection('about');return false;">Our Heritage</a>
+      </div>
+      <div class="hero-scroll">
+        <div class="scroll-line"></div>
+        Scroll to explore
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-visual-wrap">
+        <svg class="mandala-svg" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="200" cy="250" r="170" stroke="#C9A84C" stroke-width="0.4" opacity="0.3"/>
+          <circle cx="200" cy="250" r="140" stroke="#C9A84C" stroke-width="0.3" opacity="0.2"/>
+          <circle cx="200" cy="250" r="110" stroke="#C9A84C" stroke-width="0.3" opacity="0.15"/>
+          <circle cx="200" cy="250" r="80" stroke="#C9A84C" stroke-width="0.4" opacity="0.25"/>
+          <!-- petals -->
+          <ellipse cx="200" cy="105" rx="12" ry="40" fill="rgba(201,168,76,0.06)" stroke="#C9A84C" stroke-width="0.4"/>
+          <ellipse cx="200" cy="395" rx="12" ry="40" fill="rgba(201,168,76,0.06)" stroke="#C9A84C" stroke-width="0.4"/>
+          <ellipse cx="55" cy="250" rx="40" ry="12" fill="rgba(201,168,76,0.06)" stroke="#C9A84C" stroke-width="0.4"/>
+          <ellipse cx="345" cy="250" rx="40" ry="12" fill="rgba(201,168,76,0.06)" stroke="#C9A84C" stroke-width="0.4"/>
+          <ellipse cx="97" cy="147" rx="12" ry="40" fill="rgba(201,168,76,0.04)" stroke="#C9A84C" stroke-width="0.3" transform="rotate(-45 97 147)"/>
+          <ellipse cx="303" cy="147" rx="12" ry="40" fill="rgba(201,168,76,0.04)" stroke="#C9A84C" stroke-width="0.3" transform="rotate(45 303 147)"/>
+          <ellipse cx="97" cy="353" rx="12" ry="40" fill="rgba(201,168,76,0.04)" stroke="#C9A84C" stroke-width="0.3" transform="rotate(45 97 353)"/>
+          <ellipse cx="303" cy="353" rx="12" ry="40" fill="rgba(201,168,76,0.04)" stroke="#C9A84C" stroke-width="0.3" transform="rotate(-45 303 353)"/>
+          <!-- star -->
+          <polygon points="200,130 210,195 200,210 190,195" fill="rgba(201,168,76,0.08)" stroke="#C9A84C" stroke-width="0.4"/>
+          <polygon points="200,370 210,305 200,290 190,305" fill="rgba(201,168,76,0.08)" stroke="#C9A84C" stroke-width="0.4"/>
+          <polygon points="80,250 145,240 160,250 145,260" fill="rgba(201,168,76,0.08)" stroke="#C9A84C" stroke-width="0.4"/>
+          <polygon points="320,250 255,240 240,250 255,260" fill="rgba(201,168,76,0.08)" stroke="#C9A84C" stroke-width="0.4"/>
+        </svg>
+        <svg class="mandala-inner" viewBox="0 0 160 160" style="position:absolute;top:20%;left:20%;width:60%;height:60%;" fill="none">
+          <polygon points="80,10 100,55 148,55 110,85 124,130 80,102 36,130 50,85 12,55 60,55" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.5"/>
+          <polygon points="80,30 95,65 132,65 104,86 114,120 80,99 46,120 56,86 28,65 65,65" fill="rgba(201,168,76,0.04)" stroke="#C9A84C" stroke-width="0.3" opacity="0.4"/>
+          <circle cx="80" cy="80" r="20" stroke="#C9A84C" stroke-width="0.4" opacity="0.3"/>
+        </svg>
+        <div class="hero-gem-center">
+          <svg width="90" height="90" viewBox="0 0 90 90" fill="none">
+            <polygon points="45,5 85,30 85,60 45,85 5,60 5,30" fill="rgba(201,168,76,0.12)" stroke="#C9A84C" stroke-width="0.8"/>
+            <polygon points="45,15 75,33 75,57 45,75 15,57 15,33" fill="rgba(201,168,76,0.08)" stroke="#C9A84C" stroke-width="0.5"/>
+            <polygon points="45,28 62,39 62,51 45,62 28,51 28,39" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="0.4"/>
+            <circle cx="45" cy="45" r="8" fill="rgba(201,168,76,0.3)" stroke="#C9A84C" stroke-width="0.6"/>
+            <circle cx="45" cy="45" r="3" fill="#E8C96A"/>
+            <line x1="45" y1="5" x2="45" y2="85" stroke="#C9A84C" stroke-width="0.2" opacity="0.3"/>
+            <line x1="5" y1="45" x2="85" y2="45" stroke="#C9A84C" stroke-width="0.2" opacity="0.3"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats-bar">
+    <div class="stat-item reveal"><div class="stat-num">40+</div><div class="stat-label">Years of Legacy</div></div>
+    <div class="stat-item reveal reveal-delay-1"><div class="stat-num">12K+</div><div class="stat-label">Happy Families</div></div>
+    <div class="stat-item reveal reveal-delay-2"><div class="stat-num">5000+</div><div class="stat-label">Unique Designs</div></div>
+    <div class="stat-item reveal reveal-delay-3"><div class="stat-num">BIS</div><div class="stat-label">Hallmark Certified</div></div>
+  </div>
+</div>
+
+<!-- ===== COLLECTIONS ===== -->
+<div id="sec-collections" class="section">
+  <div class="section-header">
+    <p class="section-eyebrow">Our Collections</p>
+    <h2 class="section-title">Crafted for every occasion</h2>
+  </div>
+  <div class="collection-grid">
+
+    <div class="coll-card reveal" onclick="openWhatsApp('Necklaces & Sets')">
+      <span class="coll-arrow">→</span>
+      <svg class="coll-icon" viewBox="0 0 72 72" fill="none">
+        <circle cx="36" cy="36" r="22" stroke="#C9A84C" stroke-width="0.8"/>
+        <circle cx="36" cy="36" r="12" stroke="#C9A84C" stroke-width="0.5"/>
+        <circle cx="36" cy="14" r="3" fill="#C9A84C"/>
+        <circle cx="36" cy="58" r="3" fill="#C9A84C"/>
+        <circle cx="14" cy="36" r="3" fill="#C9A84C"/>
+        <circle cx="58" cy="36" r="3" fill="#C9A84C"/>
+        <circle cx="19" cy="19" r="2" fill="rgba(201,168,76,0.5)"/>
+        <circle cx="53" cy="19" r="2" fill="rgba(201,168,76,0.5)"/>
+        <circle cx="19" cy="53" r="2" fill="rgba(201,168,76,0.5)"/>
+        <circle cx="53" cy="53" r="2" fill="rgba(201,168,76,0.5)"/>
+      </svg>
+      <div class="coll-name">Necklaces & Sets</div>
+      <div class="coll-count">142 Designs</div>
+      <div class="coll-underline"></div>
+      <span class="coll-tag">Bridal Favourite</span>
+    </div>
+
+    <div class="coll-card reveal reveal-delay-1" onclick="openWhatsApp('Bangles & Kadas')">
+      <span class="coll-arrow">→</span>
+      <svg class="coll-icon" viewBox="0 0 72 72" fill="none">
+        <ellipse cx="36" cy="36" rx="26" ry="18" stroke="#C9A84C" stroke-width="0.8"/>
+        <ellipse cx="36" cy="36" rx="16" ry="10" stroke="#C9A84C" stroke-width="0.5"/>
+        <circle cx="10" cy="36" r="3" fill="#C9A84C"/>
+        <circle cx="62" cy="36" r="3" fill="#C9A84C"/>
+        <circle cx="36" cy="18" r="2" fill="rgba(201,168,76,0.5)"/>
+        <circle cx="36" cy="54" r="2" fill="rgba(201,168,76,0.5)"/>
+      </svg>
+      <div class="coll-name">Bangles & Kadas</div>
+      <div class="coll-count">98 Designs</div>
+      <div class="coll-underline"></div>
+      <span class="coll-tag">Bestseller</span>
+    </div>
+
+    <div class="coll-card reveal reveal-delay-2" onclick="openWhatsApp('Rings & Solitaires')">
+      <span class="coll-arrow">→</span>
+      <svg class="coll-icon" viewBox="0 0 72 72" fill="none">
+        <polygon points="36,6 66,22 66,50 36,66 6,50 6,22" stroke="#C9A84C" stroke-width="0.8" fill="none"/>
+        <polygon points="36,16 56,27 56,45 36,56 16,45 16,27" stroke="#C9A84C" stroke-width="0.4" fill="rgba(201,168,76,0.06)"/>
+        <circle cx="36" cy="36" r="8" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="0.6"/>
+        <circle cx="36" cy="36" r="3" fill="#C9A84C"/>
+      </svg>
+      <div class="coll-name">Rings & Solitaires</div>
+      <div class="coll-count">210 Designs</div>
+      <div class="coll-underline"></div>
+      <span class="coll-tag">New Arrivals</span>
+    </div>
+
+    <div class="coll-card reveal reveal-delay-1" onclick="openWhatsApp('Earrings & Jhumkas')">
+      <span class="coll-arrow">→</span>
+      <svg class="coll-icon" viewBox="0 0 72 72" fill="none">
+        <path d="M36 14 L36 58" stroke="#C9A84C" stroke-width="0.8"/>
+        <circle cx="36" cy="14" r="7" stroke="#C9A84C" stroke-width="0.8" fill="rgba(201,168,76,0.1)"/>
+        <circle cx="36" cy="14" r="3" fill="#C9A84C"/>
+        <path d="M26 36 Q36 48 46 36" stroke="#C9A84C" stroke-width="0.5" fill="none"/>
+        <circle cx="36" cy="58" r="4" fill="rgba(201,168,76,0.2)" stroke="#C9A84C" stroke-width="0.5"/>
+        <circle cx="24" cy="44" r="2" fill="rgba(201,168,76,0.4)"/>
+        <circle cx="48" cy="44" r="2" fill="rgba(201,168,76,0.4)"/>
+      </svg>
+      <div class="coll-name">Earrings & Jhumkas</div>
+      <div class="coll-count">176 Designs</div>
+      <div class="coll-underline"></div>
+      <span class="coll-tag">Traditional</span>
+    </div>
+
+    <div class="coll-card reveal reveal-delay-2" onclick="openWhatsApp('Chains & Pendants')">
+      <span class="coll-arrow">→</span>
+      <svg class="coll-icon" viewBox="0 0 72 72" fill="none">
+        <rect x="16" y="22" width="40" height="28" rx="3" stroke="#C9A84C" stroke-width="0.8" fill="none"/>
+        <rect x="24" y="30" width="24" height="12" stroke="#C9A84C" stroke-width="0.4" fill="rgba(201,168,76,0.06)"/>
+        <circle cx="36" cy="36" r="5" fill="rgba(201,168,76,0.2)" stroke="#C9A84C" stroke-width="0.5"/>
+        <circle cx="36" cy="36" r="2" fill="#C9A84C"/>
+        <path d="M36 10 L36 22" stroke="#C9A84C" stroke-width="0.8"/>
+        <circle cx="36" cy="10" r="3" stroke="#C9A84C" stroke-width="0.5" fill="none"/>
+      </svg>
+      <div class="coll-name">Chains & Pendants</div>
+      <div class="coll-count">88 Designs</div>
+      <div class="coll-underline"></div>
+      <span class="coll-tag">Daily Wear</span>
+    </div>
+
+    <div class="coll-card reveal reveal-delay-3" onclick="openWhatsApp('Bridal Sets')">
+      <span class="coll-arrow">→</span>
+      <svg class="coll-icon" viewBox="0 0 72 72" fill="none">
+        <path d="M36 10 C20 10 12 22 12 36 C12 52 22 62 36 62 C50 62 60 52 60 36 C60 22 52 10 36 10Z" stroke="#C9A84C" stroke-width="0.8" fill="none"/>
+        <path d="M36 20 C26 20 20 28 20 36 C20 45 26 52 36 52" stroke="#C9A84C" stroke-width="0.4" fill="none" opacity="0.6"/>
+        <polygon points="36,22 42,30 52,31 45,38 47,48 36,43 25,48 27,38 20,31 30,30" fill="rgba(201,168,76,0.1)" stroke="#C9A84C" stroke-width="0.5"/>
+        <circle cx="36" cy="36" r="4" fill="#C9A84C" opacity="0.8"/>
+      </svg>
+      <div class="coll-name">Bridal Sets</div>
+      <div class="coll-count">64 Designs</div>
+      <div class="coll-underline"></div>
+      <span class="coll-tag">Premium</span>
+    </div>
+  </div>
+
+  <div class="featured-strip reveal">
+    <div>
+      <div class="featured-label">✦ Featured Collection</div>
+      <div class="featured-text" style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:300;color:var(--text);">Navratna Collection 2025</div>
+      <div class="featured-sub" style="font-size:13px;color:var(--text-muted);margin-top:6px;">Nine gemstones. One legacy. Limited edition.</div>
+    </div>
+    <div style="display:flex;gap:1rem;">
+      <a class="btn-whatsapp" href="https://wa.me/918700396199?text=Hello%20Krishna%20Jewellers%2C%20I%20am%20interested%20in%20the%20Navratna%20Collection%202025." target="_blank" rel="noopener" style="font-size:10px;letter-spacing:2px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Enquire Now
+      </a>
+      <a class="nav-cta" href="#" onclick="showSection('contact');return false;" style="padding:14px 28px;">Book Viewing</a>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ABOUT ===== -->
+<div id="sec-about" class="section">
+  <div class="about-layout">
+    <div class="about-left">
+      <p class="section-eyebrow reveal">Our Story</p>
+      <h2 class="about-title reveal reveal-delay-1">Four decades of <em>golden</em> craftsmanship</h2>
+      <p class="about-body reveal reveal-delay-2">Founded in 1985 in the heart of New Delhi, Krishna Jewellers was born from a single goldsmith's dream — to bring the finest Indian jewellery craftsmanship to every family's most precious moments.</p>
+      <p class="about-body reveal reveal-delay-2">Today, spanning three generations, we remain committed to purity, artistry, and the timeless beauty that gold represents in every Indian home.</p>
+      <div class="gold-divider reveal reveal-delay-3"><span class="gold-divider-icon">✦</span></div>
+      <div class="values reveal reveal-delay-3">
+        <div class="value-item">
+          <span class="value-num">01</span>
+          <div>
+            <div class="value-title">BIS Hallmarked Gold</div>
+            <div class="value-desc">Every piece certified for purity. 22K and 18K options with complete transparency.</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-num">02</span>
+          <div>
+            <div class="value-title">Master Craftsmen</div>
+            <div class="value-desc">Over 30 artisans trained in Rajasthani, South Indian, and Kundan techniques.</div>
+          </div>
+        </div>
+        <div class="value-item">
+          <span class="value-num">03</span>
+          <div>
+            <div class="value-title">Lifetime Exchange</div>
+            <div class="value-desc">Full value exchange on all purchases. Your trust is our bond.</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:1rem;margin-top:2.5rem;" class="reveal reveal-delay-4">
+        <a class="btn-primary" href="#" onclick="showSection('contact');return false;"><span>Visit Our Store</span></a>
+        <a class="btn-whatsapp" href="https://wa.me/918700396199?text=Hello%20Krishna%20Jewellers%2C%20I%20would%20like%20to%20know%20more%20about%20your%20brand." target="_blank" rel="noopener">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Us
+        </a>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-visual-wrap reveal">
+        <svg class="about-ornament" viewBox="0 0 300 300" width="260" height="260" fill="none">
+          <circle cx="150" cy="150" r="120" stroke="#C9A84C" stroke-width="0.5" opacity="0.3"/>
+          <circle cx="150" cy="150" r="90" stroke="#C9A84C" stroke-width="0.4" opacity="0.2"/>
+          <circle cx="150" cy="150" r="60" stroke="#C9A84C" stroke-width="0.5" opacity="0.3"/>
+          <circle cx="150" cy="150" r="30" fill="rgba(201,168,76,0.06)" stroke="#C9A84C" stroke-width="0.6" opacity="0.5"/>
+          <circle cx="150" cy="150" r="10" fill="rgba(201,168,76,0.3)" stroke="#C9A84C"/>
+          <!-- spokes -->
+          <line x1="150" y1="30" x2="150" y2="270" stroke="#C9A84C" stroke-width="0.3" opacity="0.2"/>
+          <line x1="30" y1="150" x2="270" y2="150" stroke="#C9A84C" stroke-width="0.3" opacity="0.2"/>
+          <line x1="65" y1="65" x2="235" y2="235" stroke="#C9A84C" stroke-width="0.2" opacity="0.15"/>
+          <line x1="235" y1="65" x2="65" y2="235" stroke="#C9A84C" stroke-width="0.2" opacity="0.15"/>
+          <!-- diamond points -->
+          <circle cx="150" cy="30" r="4" fill="#C9A84C" opacity="0.7"/>
+          <circle cx="150" cy="270" r="4" fill="#C9A84C" opacity="0.7"/>
+          <circle cx="30" cy="150" r="4" fill="#C9A84C" opacity="0.7"/>
+          <circle cx="270" cy="150" r="4" fill="#C9A84C" opacity="0.7"/>
+          <polygon points="150,80 165,120 150,135 135,120" fill="none" stroke="#C9A84C" stroke-width="0.4" opacity="0.4"/>
+          <polygon points="150,220 165,180 150,165 135,180" fill="none" stroke="#C9A84C" stroke-width="0.4" opacity="0.4"/>
+          <polygon points="80,150 120,135 135,150 120,165" fill="none" stroke="#C9A84C" stroke-width="0.4" opacity="0.4"/>
+          <polygon points="220,150 180,135 165,150 180,165" fill="none" stroke="#C9A84C" stroke-width="0.4" opacity="0.4"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== CONTACT ===== -->
+<div id="sec-contact" class="section">
+  <div class="contact-layout">
+    <div class="contact-left">
+      <p class="section-eyebrow reveal">Get in Touch</p>
+      <h2 class="contact-title reveal reveal-delay-1">Visit us or<br>reach out</h2>
+      <p class="contact-sub reveal reveal-delay-2">We'd love to help you find the perfect piece. Walk in or book a private consultation with our experts.</p>
+      <div class="info-grid">
+        <div class="info-item reveal reveal-delay-2">
+          <div class="info-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1C5.2 1 3 3.2 3 6c0 4 5 9 5 9s5-5 5-9c0-2.8-2.2-5-5-5zm0 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" fill="#C9A84C"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Address</div>
+            <div class="info-value">24, Karol Bagh Main Road,<br>New Delhi – 110005</div>
+          </div>
+        </div>
+        <div class="info-item reveal reveal-delay-3">
+          <div class="info-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M14 10.5c-1.2 0-2.4-.2-3.5-.6-.3-.1-.6 0-.8.2l-1.5 1.5C6.5 10.5 5.5 9.5 4.4 7.8l1.5-1.5c.2-.2.3-.5.2-.8C5.7 4.4 5.5 3.2 5.5 2c0-.5-.4-1-1-1H2c-.5 0-1 .4-1 1 0 7.2 5.8 13 13 13 .5 0 1-.4 1-1v-2.5c0-.6-.4-1-1-1z" fill="#C9A84C"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Phone</div>
+            <div class="info-value"><a href="tel:+918700396199">+91 87003 96199</a></div>
+          </div>
+        </div>
+        <div class="info-item reveal reveal-delay-3">
+          <div class="info-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2H3c-.6 0-1 .4-1 1v10c0 .6.4 1 1 1h10c.6 0 1-.4 1-1V3c0-.6-.4-1-1-1zm-1 2.5l-4 3-4-3V4h8v.5z" fill="#C9A84C"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Email</div>
+            <div class="info-value"><a href="mailto:hello@krishnajewellers.in">hello@krishnajewellers.in</a></div>
+          </div>
+        </div>
+        <div class="info-item reveal reveal-delay-4">
+          <div class="info-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#C9A84C" stroke-width="1"/><path d="M8 4v4l2.5 2.5" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <div class="info-label">Store Hours</div>
+            <div class="info-value">Mon–Sat: 10am – 8pm<br>Sunday: 11am – 6pm</div>
+          </div>
+        </div>
+      </div>
+      <a class="wa-cta reveal reveal-delay-5" href="https://wa.me/918700396199?text=Hello%20Krishna%20Jewellers%2C%20I%20would%20like%20to%20book%20an%20appointment." target="_blank" rel="noopener">
+        <div class="wa-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </div>
+        <div class="wa-cta-text">
+          <div class="wa-cta-label">WhatsApp Direct</div>
+          <div class="wa-cta-value">+91 87003 96199</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="contact-right">
+      <p class="section-eyebrow reveal" style="margin-bottom:0.5rem;">Send a Message</p>
+      <h3 class="form-title reveal reveal-delay-1">We'd love to hear<br>from you</h3>
+      <div id="contact-form">
+        <div class="form-grid">
+          <div class="form-group reveal reveal-delay-2">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" id="f-name" placeholder="Your full name">
+          </div>
+          <div class="form-group reveal reveal-delay-2">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" id="f-phone" placeholder="+91 XXXXX XXXXX">
+          </div>
+          <div class="form-group reveal reveal-delay-3">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" id="f-email" placeholder="you@email.com">
+          </div>
+          <div class="form-group reveal reveal-delay-3">
+            <label class="form-label">Occasion</label>
+            <select class="form-input" id="f-occasion">
+              <option value="" disabled selected>Select occasion</option>
+              <option>Wedding / Bridal</option>
+              <option>Anniversary</option>
+              <option>Festival / Gift</option>
+              <option>Daily Wear</option>
+              <option>Investment Gold</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group full reveal reveal-delay-4">
+            <label class="form-label">Message</label>
+            <textarea class="form-input" id="f-msg" placeholder="Tell us what you're looking for..."></textarea>
+          </div>
+        </div>
+        <div style="display:flex;gap:1rem;" class="reveal reveal-delay-5">
+          <button class="form-submit" onclick="submitForm()" style="flex:1;"><span>Send Message</span></button>
+          <a class="btn-whatsapp" style="flex:1;justify-content:center;" href="#" onclick="sendViaWhatsApp();return false;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Send on WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="success-msg" id="success-msg">
+        ✦ Thank you!
+        <p>We've received your message and will reach out within 24 hours.</p>
+        <div style="margin-top:1.5rem;">
+          <a class="btn-whatsapp" href="https://wa.me/918700396199" target="_blank" rel="noopener" style="display:inline-flex;font-size:10px;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Chat directly on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div>
+    <div class="footer-brand">Krishna Jewellers</div>
+    <div class="footer-copy">© 2025 Krishna Jewellers · New Delhi · All rights reserved</div>
+  </div>
+  <div class="footer-links">
+    <a href="#" onclick="showSection('hero');return false;">Home</a>
+    <a href="#" onclick="showSection('collections');return false;">Collections</a>
+    <a href="#" onclick="showSection('about');return false;">About</a>
+    <a href="#" onclick="showSection('contact');return false;">Contact</a>
+    <a href="https://wa.me/918700396199" target="_blank" rel="noopener" style="color:#25D366;">WhatsApp</a>
+    <a href="tel:+918700396199">+91 87003 96199</a>
+  </div>
+</footer>
+
+<script>
+  // CURSOR
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx+'px'; cursor.style.top = my+'px'; });
+  (function animRing() {
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx+'px'; ring.style.top = ry+'px';
+    requestAnimationFrame(animRing);
+  })();
+  document.querySelectorAll('a,button,.coll-card').forEach(el => {
+    el.addEventListener('mouseenter', () => { cursor.style.width='14px'; cursor.style.height='14px'; ring.style.width='48px'; ring.style.height='48px'; ring.style.opacity='0.6'; });
+    el.addEventListener('mouseleave', () => { cursor.style.width='8px'; cursor.style.height='8px'; ring.style.width='32px'; ring.style.height='32px'; ring.style.opacity='1'; });
+  });
+
+  // NAV SCROLL
+  window.addEventListener('scroll', () => {
+    document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // SECTION SWITCH
+  function showSection(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById('sec-' + id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    const match = document.querySelector(`.nav-links a[onclick*="${id}"]`);
+    if (match) match.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(triggerReveal, 100);
+  }
+
+  // SCROLL REVEAL
+  function triggerReveal() {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 60) el.classList.add('visible');
+    });
+  }
+  window.addEventListener('scroll', triggerReveal);
+  triggerReveal();
+
+  // COLLECTION WHATSAPP
+  function openWhatsApp(category) {
+    const msg = encodeURIComponent(`Hello Krishna Jewellers, I am interested in your ${category} collection. Please share more details.`);
+    window.open(`https://wa.me/918700396199?text=${msg}`, '_blank');
+  }
+
+  // FORM SUBMIT
+  function submitForm() {
+    const name = document.getElementById('f-name').value.trim();
+    const phone = document.getElementById('f-phone').value.trim();
+    if (!name || !phone) { alert('Please enter your name and phone number.'); return; }
+    document.getElementById('contact-form').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  }
+
+  // SEND VIA WHATSAPP (uses form fields)
+  function sendViaWhatsApp() {
+    const name = document.getElementById('f-name').value.trim() || 'Customer';
+    const phone = document.getElementById('f-phone').value.trim() || '';
+    const occasion = document.getElementById('f-occasion').value || '';
+    const msg = document.getElementById('f-msg').value.trim() || '';
+    const text = `Hello Krishna Jewellers!\n\nName: ${name}\nPhone: ${phone}\nOccasion: ${occasion}\nMessage: ${msg}`;
+    window.open(`https://wa.me/918700396199?text=${encodeURIComponent(text)}`, '_blank');
+  }
+
+  // INIT
+  setTimeout(triggerReveal, 300);
+</script>
+</body>
+</html>
